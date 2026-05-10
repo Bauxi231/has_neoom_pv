@@ -1,12 +1,11 @@
 {
   "domain": "neoom_pv",
-  "name": "Neoom PV",
+  "name": "Neoom PV Integration",
   "version": "1.0.0",
   "documentation": "https://github.com/Bauxi231/has_neoom_pv",
   "issue_tracker": "https://github.com/Bauxi231/has_neoom_pv/issues",
   "requirements": [],
   "config_flow": true,
-  "min_ha_version": "2024.1.0",
   "iot_class": "local_polling",
   "codeowners": ["@Bauxi231"]
 }
