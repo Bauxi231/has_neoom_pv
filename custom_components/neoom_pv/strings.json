@@ -1,0 +1,54 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Neoom PV Integration einrichten",
+        "description": "Schritt 1: Gib die Zugangsdaten für deine Neoom BEAAM Anlage ein.",
+        "data": {
+          "beaam_ip": "BEAAM IP-Adresse",
+          "beaam_token": "BEAAM API Token",
+          "site_id": "Site ID"
+        },
+        "data_description": {
+          "beaam_ip": "Die lokale IP-Adresse deines BEAAM Geräts (z.B. 192.168.178.36)",
+          "beaam_token": "Dein Bearer Token für die lokale API",
+          "site_id": "Die eindeutige ID deiner Anlage (UUID)"
+        }
+      },
+      "config": {
+        "title": "Anlagenkonfiguration",
+        "description": "Schritt 2: Gib die technischen Daten deiner PV-Anlage ein. Diese Werte können nicht automatisch aus der API gelesen werden.",
+        "data": {
+          "battery_capacity": "Batteriekapazität (Wh)",
+          "min_soc_reserve": "Min. Batterie-Reserve (%)",
+          "max_charge_power": "Max. Ladeleistung (W)",
+          "max_discharge_power": "Max. Entladeleistung (W)",
+          "max_pv_power": "Max. PV-Leistung (W)",
+          "max_grid_feed_in": "Max. Einspeiseleistung (W)",
+          "max_grid_supply": "Max. Netzbezug (W)",
+          "update_interval": "Aktualisierungsintervall (Sekunden)",
+          "enable_calculated_sensors": "Berechnete Sensoren aktivieren"
+        },
+        "data_description": {
+          "battery_capacity": "Gesamtkapazität deiner Batterie in Wh (z.B. 33600)",
+          "min_soc_reserve": "Minimaler Ladezustand, der nicht unterschritten wird (z.B. 10 für 10%)",
+          "max_charge_power": "Maximale Ladeleistung der Batterie in W (0 = nicht konfiguriert)",
+          "max_discharge_power": "Maximale Entladeleistung der Batterie in W (0 = nicht konfiguriert)",
+          "max_pv_power": "Maximale Leistung deiner PV-Module in W (z.B. 10800)",
+          "max_grid_feed_in": "Maximale Einspeiseleistung ins Netz in W (z.B. 10000)",
+          "max_grid_supply": "Maximaler Bezug aus dem Netz in W (z.B. 17300)",
+          "update_interval": "Wie oft die Sensoren aktualisiert werden (5-300 Sekunden, Standard: 30)",
+          "enable_calculated_sensors": "Erzeugt zusätzliche Sensoren für Tagesverbrauch etc."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen. Bitte überprüfe IP und Netzwerk.",
+      "invalid_auth": "Ungültiges Token. Bitte überprüfe den API-Token.",
+      "unknown": "Ein unerwarteter Fehler ist aufgetreten. Bitte prüfe die Protokolle."
+    },
+    "abort": {
+      "already_configured": "Diese Site ist bereits konfiguriert."
+    }
+  }
+}
