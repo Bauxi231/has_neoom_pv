@@ -1,0 +1,59 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Neoom PV Integration Setup",
+        "description": "Configure your Neoom BEAAM system connection.",
+        "data": {
+          "beaam_ip": "BEAAM IP Address",
+          "beaam_token": "BEAAM API Token",
+          "site_id": "Site ID"
+        }
+      },
+      "configuration": {
+        "title": "System Configuration",
+        "description": "Configure your PV system parameters.",
+        "data": {
+          "battery_capacity": "Battery Capacity (Wh)",
+          "min_soc_reserve": "Minimum SOC Reserve (%)",
+          "max_charge_power": "Max Charge Power (W)",
+          "max_discharge_power": "Max Discharge Power (W)",
+          "max_pv_power": "Max PV Power (W)",
+          "max_grid_feed_in": "Max Grid Feed-in Power (W)",
+          "max_grid_supply": "Max Grid Supply Power (W)",
+          "update_interval": "Update Interval (seconds)",
+          "enable_calculated_sensors": "Enable Calculated Sensors"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to BEAAM API. Please check IP and token.",
+      "invalid_auth": "Invalid API token. Please verify your credentials.",
+      "invalid_data": "Invalid data structure received from API.",
+      "unknown": "An unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This site is already configured.",
+      "single_instance_allowed": "Only one instance of this integration is allowed."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Update Configuration",
+        "description": "Update your Neoom PV system settings.",
+        "data": {
+          "battery_capacity": "Battery Capacity (Wh)",
+          "min_soc_reserve": "Minimum SOC Reserve (%)",
+          "max_charge_power": "Max Charge Power (W)",
+          "max_discharge_power": "Max Discharge Power (W)",
+          "max_pv_power": "Max PV Power (W)",
+          "max_grid_feed_in": "Max Grid Feed-in Power (W)",
+          "max_grid_supply": "Max Grid Supply Power (W)",
+          "update_interval": "Update Interval (seconds)",
+          "enable_calculated_sensors": "Enable Calculated Sensors"
+        }
+      }
+    }
+  }
+}
