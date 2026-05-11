@@ -9,13 +9,24 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 
-from .const import (CONF_BATTERY_CAPACITY, CONF_BEAM_IP, CONF_BEAM_TOKEN,
-                    CONF_ENABLE_CALCULATED_SENSORS, CONF_MAX_CHARGE_POWER,
-                    CONF_MAX_DISCHARGE_POWER, CONF_MAX_GRID_FEED_IN,
-                    CONF_MAX_GRID_SUPPLY, CONF_MAX_PV_POWER,
-                    CONF_MIN_SOC_RESERVE, CONF_SITE_ID, CONF_UPDATE_INTERVAL,
-                    DEFAULT_ENABLE_CALCULATED, DEFAULT_MIN_SOC_RESERVE,
-                    DEFAULT_UPDATE_INTERVAL, DOMAIN)
+from .const import (
+    CONF_BATTERY_CAPACITY,
+    CONF_BEAM_IP,
+    CONF_BEAM_TOKEN,
+    CONF_ENABLE_CALCULATED_SENSORS,
+    CONF_MAX_CHARGE_POWER,
+    CONF_MAX_DISCHARGE_POWER,
+    CONF_MAX_GRID_FEED_IN,
+    CONF_MAX_GRID_SUPPLY,
+    CONF_MAX_PV_POWER,
+    CONF_MIN_SOC_RESERVE,
+    CONF_SITE_ID,
+    CONF_UPDATE_INTERVAL,
+    DEFAULT_ENABLE_CALCULATED,
+    DEFAULT_MIN_SOC_RESERVE,
+    DEFAULT_UPDATE_INTERVAL,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 

@@ -6,11 +6,14 @@ from typing import Any
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.update_coordinator import (DataUpdateCoordinator,
-                                                      UpdateFailed)
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import (API_ENDPOINT_CONFIG, API_ENDPOINT_STATE,
-                    DEFAULT_UPDATE_INTERVAL, DOMAIN)
+from .const import (
+    API_ENDPOINT_CONFIG,
+    API_ENDPOINT_STATE,
+    DEFAULT_UPDATE_INTERVAL,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
