@@ -1,4 +1,5 @@
 """Constants for the Neoom PV integration."""
+
 from typing import Final
 
 # Domain-Name (muss mit manifest.json übereinstimmen)
@@ -42,7 +43,6 @@ SENSOR_KEYS = {
     "POWER_CHARGING_STATIONS": "wallbox_leistung",
     "POWER_HEATING": "heizung_leistung",
     "POWER_APPLIANCES": "geraete_leistung",
-
     # Energie-Fraktionen (%)
     "SELF_SUFFICIENCY": "autarkiegrad",
     "FRACTION_PV_TO_CONSUMPTION": "pv_zu_verbrauch",
@@ -52,7 +52,6 @@ SENSOR_KEYS = {
     "FRACTION_GRID_TO_STORAGE": "netz_zu_batterie",
     "FRACTION_STORAGE_TO_CONSUMPTION": "batterie_zu_verbrauch",
     "FRACTION_STORAGE_TO_GRID": "batterie_zu_netz",
-
     # Energie (Wh)
     "ENERGY_PRODUCED": "produzierte_energie",
     "ENERGY_CONSUMED": "verbrauchte_energie",
@@ -61,7 +60,6 @@ SENSOR_KEYS = {
     "ENERGY_DISCHARGED": "entladene_energie",
     "ENERGY_IMPORTED": "netzbezug",
     "ENERGY_EXPORTED": "einspeisung",
-
     # Status
     "STATE_OF_CHARGE": "batterie_ladestand",
 }

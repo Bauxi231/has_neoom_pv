@@ -1,4 +1,5 @@
 """Config flow for Neoom PV Integration."""
+
 import logging
 from typing import Any
 
@@ -42,17 +43,15 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 STEP_CONFIG_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_BATTERY_CAPACITY, default=0): int,
-        vol.Required(
-            CONF_MIN_SOC_RESERVE, default=DEFAULT_MIN_SOC_RESERVE
-        ): int,
+        vol.Required(CONF_MIN_SOC_RESERVE, default=DEFAULT_MIN_SOC_RESERVE): int,
         vol.Optional(CONF_MAX_CHARGE_POWER, default=0): int,
         vol.Optional(CONF_MAX_DISCHARGE_POWER, default=0): int,
         vol.Optional(CONF_MAX_PV_POWER, default=0): int,
         vol.Optional(CONF_MAX_GRID_FEED_IN, default=0): int,
         vol.Optional(CONF_MAX_GRID_SUPPLY, default=0): int,
-        vol.Required(
-            CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL
-        ): vol.All(vol.Coerce(int), vol.Range(min=5, max=300)),
+        vol.Required(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): vol.All(
+            vol.Coerce(int), vol.Range(min=5, max=300)
+        ),
         vol.Required(
             CONF_ENABLE_CALCULATED_SENSORS,
             default=DEFAULT_ENABLE_CALCULATED,
@@ -92,9 +91,7 @@ async def validate_connection(
 
             json_data = await resp.json()
             if "energyFlow" not in json_data:
-                raise InvalidData(
-                    "Antwort enthält keine energyFlow Daten"
-                )
+                raise InvalidData("Antwort enthält keine energyFlow Daten")
 
             return {"title": f"Neoom PV ({beam_ip})"}
 

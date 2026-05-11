@@ -1,4 +1,5 @@
 """Sensors for Neoom PV Integration."""
+
 import logging
 from datetime import timedelta
 
@@ -269,9 +270,7 @@ class NeoomCoordinator(DataUpdateCoordinator):
             "accept": "application/json",
         }
         try:
-            async with self.session.get(
-                state_url, headers=headers, timeout=10
-            ) as resp:
+            async with self.session.get(state_url, headers=headers, timeout=10) as resp:
                 if resp.status != 200:
                     raise Exception(f"State API returned status {resp.status}")
                 state_data = await resp.json()
@@ -294,9 +293,7 @@ class NeoomSensor(SensorEntity):
         self._attr_name = config["name"]
         self._attr_device_class = config["device_class"]
         self._attr_state_class = config["state_class"]
-        self._attr_native_unit_of_measurement = config[
-            "native_unit_of_measurement"
-        ]
+        self._attr_native_unit_of_measurement = config["native_unit_of_measurement"]
         self._attr_icon = config["icon"]
         self._attr_has_entity_name = True
         self._attr_device_info = {
@@ -319,17 +316,11 @@ class NeoomSensor(SensorEntity):
             if secret_key in self._secrets:
                 val = self._secrets[secret_key]
                 try:
-                    return (
-                        float(val)
-                        if "." in str(val)
-                        else int(float(val))
-                    )
+                    return float(val) if "." in str(val) else int(float(val))
                 except (ValueError, TypeError):
                     return None
             else:
-                _LOGGER.warning(
-                    "Secret %s not found in secrets.yaml", secret_key
-                )
+                _LOGGER.warning("Secret %s not found in secrets.yaml", secret_key)
                 return None
 
         # Dynamische Werte aus energyFlow/states laden
