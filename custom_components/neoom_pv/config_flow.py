@@ -1,6 +1,4 @@
-"""Config flow for Neoom PV integration."""
-from __future__ import annotations
-
+"""Config flow for Neoom PV Integration."""
 import logging
 from typing import Any
 
@@ -9,7 +7,6 @@ from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
     CONF_BEAM_IP,
@@ -45,14 +42,21 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 STEP_CONFIG_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_BATTERY_CAPACITY, default=0): int,
-        vol.Required(CONF_MIN_SOC_RESERVE, default=DEFAULT_MIN_SOC_RESERVE): int,
+        vol.Required(
+            CONF_MIN_SOC_RESERVE, default=DEFAULT_MIN_SOC_RESERVE
+        ): int,
         vol.Optional(CONF_MAX_CHARGE_POWER, default=0): int,
         vol.Optional(CONF_MAX_DISCHARGE_POWER, default=0): int,
         vol.Optional(CONF_MAX_PV_POWER, default=0): int,
         vol.Optional(CONF_MAX_GRID_FEED_IN, default=0): int,
         vol.Optional(CONF_MAX_GRID_SUPPLY, default=0): int,
-        vol.Required(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): vol.All(vol.Coerce(int), vol.Range(min=5, max=300)),
-        vol.Required(CONF_ENABLE_CALCULATED_SENSORS, default=DEFAULT_ENABLE_CALCULATED): bool,
+        vol.Required(
+            CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL
+        ): vol.All(vol.Coerce(int), vol.Range(min=5, max=300)),
+        vol.Required(
+            CONF_ENABLE_CALCULATED_SENSORS,
+            default=DEFAULT_ENABLE_CALCULATED,
+        ): bool,
     }
 )
 
@@ -65,56 +69,45 @@ class InvalidAuth(HomeAssistantError):
     """Error to indicate there is invalid authentication."""
 
 
-async def validate_connection(hass: HomeAssistant, data: dict[str, Any]) -> dict[str, Any]:
-    """Validate the user input allows us to connect.
-
-    Returns info dict with title on success.
-    Raises exceptions on failure.
-    """
-    beaam_ip = data[CONF_BEAM_IP]
-    beaam_token = data[CONF_BEAM_TOKEN]
+async def validate_connection(
+    hass: HomeAssistant, data: dict[str, Any]
+) -> dict[str, Any]:
+    """Validate the user input allows us to connect."""
+    from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
     session = async_get_clientsession(hass)
-    url = f"http://{beaam_ip}/api/v1/site/state"
+    beam_ip = data[CONF_BEAM_IP]
+    beam_token = data[CONF_BEAM_TOKEN]
+
+    url = f"http://{beam_ip}/api/v1/site/state"
     headers = {
-        "Authorization": f"Bearer {beaam_token}",
+        "Authorization": f"Bearer {beam_token}",
         "accept": "application/json",
     }
 
     try:
         async with session.get(url, headers=headers, timeout=10) as resp:
-            if resp.status == 401:
-                raise InvalidAuth
             if resp.status != 200:
-                raise CannotConnect(f"API returned status {resp.status}")
+                raise InvalidAuth(f"API returned status {resp.status}")
 
             json_data = await resp.json()
+            if "energyFlow" not in json_data:
+                raise InvalidData(
+                    "Antwort enthält keine energyFlow Daten"
+                )
 
-            if not isinstance(json_data, dict):
-                raise CannotConnect("API response is not a valid JSON object")
+            return {"title": f"Neoom PV ({beam_ip})"}
 
-    except InvalidAuth:
-        raise
-    except CannotConnect:
-        raise
     except Exception as err:
-        _LOGGER.error("Unexpected error during validation: %s", err)
+        _LOGGER.error("Validation failed: %s", err)
         raise CannotConnect from err
 
-    return {"title": f"Neoom PV ({beaam_ip})"}
 
-
-class NeoomPVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Neoom PV."""
 
     VERSION = 1
-    MINOR_VERSION = 1
-    CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_POLL
-
-    def __init__(self) -> None:
-        """Initialize the config flow."""
-        self.user_input_step1: dict[str, Any] = {}
-        self.user_input_step2: dict[str, Any] = {}
+    user_input_step1: dict[str, Any]
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -157,7 +150,8 @@ class NeoomPVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             self._abort_if_unique_id_configured()
 
             _LOGGER.info(
-                "Creating config entry for Neoom PV site %s with battery capacity %s Wh",
+                "Creating config entry for Neoom PV site %s with battery "
+                "capacity %s Wh",
                 all_data[CONF_SITE_ID],
                 all_data[CONF_BATTERY_CAPACITY],
             )
@@ -173,3 +167,7 @@ class NeoomPVConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=STEP_CONFIG_SCHEMA,
             errors=errors,
         )
+
+
+class InvalidData(HomeAssistantError):
+    """Error to indicate invalid data structure."""

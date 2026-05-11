@@ -1,19 +1,20 @@
-"""DataUpdateCoordinator for Neoom PV."""
-from __future__ import annotations
-
+"""Coordinator for Neoom PV Integration."""
 import logging
 from datetime import timedelta
 from typing import Any
 
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
+from homeassistant.helpers.update_coordinator import (
+    DataUpdateCoordinator,
+    UpdateFailed,
+)
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
-    DOMAIN,
-    API_ENDPOINT_STATE,
     API_ENDPOINT_CONFIG,
+    API_ENDPOINT_STATE,
     DEFAULT_UPDATE_INTERVAL,
+    DOMAIN,
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -53,18 +54,26 @@ class NeoomCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         try:
             # State-Daten abrufen (Echtzeit)
-            async with self.session.get(state_url, headers=headers, timeout=10) as resp:
+            async with self.session.get(
+                state_url, headers=headers, timeout=10
+            ) as resp:
                 if resp.status != 200:
-                    raise UpdateFailed(f"State API returned status {resp.status}")
+                    raise UpdateFailed(
+                        f"State API returned status {resp.status}"
+                    )
                 state_data = await resp.json()
 
             # Config-Daten abrufen (statisch, seltener)
             config_data = {}
-            async with self.session.get(config_url, headers=headers, timeout=10) as resp:
+            async with self.session.get(
+                config_url, headers=headers, timeout=10
+            ) as resp:
                 if resp.status == 200:
                     config_data = await resp.json()
                 else:
-                    _LOGGER.warning("Config API returned status %s", resp.status)
+                    _LOGGER.warning(
+                        "Config API returned status %s", resp.status
+                    )
 
             return {
                 "state": state_data,
@@ -73,4 +82,6 @@ class NeoomCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         except Exception as err:
             _LOGGER.error("Error fetching Neoom data: %s", err)
-            raise UpdateFailed(f"Error communicating with API: {err}") from err
+            raise UpdateFailed(
+                f"Error communicating with API: {err}"
+            ) from err
