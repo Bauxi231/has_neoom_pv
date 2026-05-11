@@ -1,6 +1,5 @@
 {
   "name": "Neoom PV Integration",
   "render_readme": true,
-  "homeassistant": "2024.1.0",
-  "topics": ["pv", "solar", "battery", "energy", "neoom"]
+  "homeassistant": "2024.1.0"
 }
