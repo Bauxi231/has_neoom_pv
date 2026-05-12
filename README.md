@@ -46,9 +46,9 @@ Eine Home Assistant Custom Integration zur Integration von Neoom BEAAM PV-System
 2. Klicke auf **+ Integration hinzufügen**
 3. Suche nach "Neoom PV"
 4. Gib folgende Daten ein:
-   - **BEAAM IP Address**: Die lokale IP deines BEAAM Geräts (z.B. `192.168.178.36`)
-   - **BEAAM API Token**: Dein Bearer Token für die BEAAM API
-   - **Site ID**: Deine Site ID (UUID-Format)
+   - **BEAAM IP Address**: Die lokale IP deines BEAAM Geräts
+   - **BEAAM API Token**: Dein Bearer Token aus dem Neoom Konto für die BEAAM API
+   - **Site ID**: Deine Site ID aus dem Neoom Konto
 5. Klicke auf "Absenden"
 
 
